@@ -1,0 +1,6 @@
+framework:
+    default_locale: 'es' # Idioma predeterminado
+    translator:
+        enabled: true
+        paths: ['%kernel.project_dir%/translations'] # Ruta a la carpeta de traducciones
+        fallback: ['en'] # Idioma de respaldo si no hay traducción en el predeterminado

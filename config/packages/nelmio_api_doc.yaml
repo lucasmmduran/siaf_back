@@ -1,0 +1,21 @@
+nelmio_api_doc:
+    areas:
+        default:
+            path_patterns:
+                - ^/api  # Solo documenta rutas que comienzan con /api
+            with_annotation: false  # Asegúrate de que la documentación se genere a partir de atributos
+            documentation:
+                info:
+                    title: "Autodiagnóstico Emprendedores"
+                    description: "API Doc"
+                    version: "1.0"
+                security:
+                    - BearerAuth: []  # Definimos que la API usa autenticación Bearer (JWT)
+                components:
+                    securitySchemes:
+                        bearerAuth:
+                            type: http
+                            scheme: bearer
+                            bearerFormat: JWT
+                    schemas:
+                        User: 'App\Entity\User'

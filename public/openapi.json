@@ -1,0 +1,345 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/forms": {
+            "get": {
+                "tags": [
+                    "Forms"
+                ],
+                "summary": "Retrieve all forms",
+                "description": "Retrieves a list of all forms. Requires authentication.",
+                "operationId": "b7118ef3dada6283a42e754005b908b4",
+                "responses": {
+                    "200": {
+                        "description": "List of forms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Form"
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": 1234,
+                                        "title": "My awesome form",
+                                        "description": "This is a basic form.",
+                                        "level": {
+                                            "id": 1,
+                                            "title": "Basic"
+                                        },
+                                        "createdByUser": {
+                                            "id": 1,
+                                            "email": "text@example.com"
+                                        }
+                                    },
+                                    {
+                                        "id": 5678,
+                                        "title": "A new form",
+                                        "description": "This is an intermediate form.",
+                                        "level": {
+                                            "id": 1,
+                                            "title": "Intermediate"
+                                        },
+                                        "createdByUser": {
+                                            "id": 1,
+                                            "email": "text@example.com"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing or invalid token."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/forms/{id}": {
+            "get": {
+                "tags": [
+                    "Forms"
+                ],
+                "summary": "Retrieve form by ID",
+                "description": "Retrieves detailed information for a specific form based on their ID. Requires authentication.",
+                "operationId": "e2bfbe57a3e3af803498cdafe4af92d4",
+                "responses": {
+                    "200": {
+                        "description": "Form data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Form"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing or invalid token."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/login_check": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Generates a JWT token for the user.",
+                "description": "This endpoint generates a JWT token for the authenticated user.",
+                "operationId": "867a98a1ea30103c9d020a76bf788fae",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Credentials"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "JWT Token Generated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials."
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retrieve all users",
+                "description": "Retrieves a list of all registered users. Requires authentication.",
+                "operationId": "d28ab56f51ec755b8e892c309ad705c1",
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": 123,
+                                        "email": "test@example.com"
+                                    },
+                                    {
+                                        "id": 456,
+                                        "email": "another@example.com"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing or invalid token."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retrieve user by ID",
+                "description": "Retrieves detailed information for a specific user based on their ID. Requires authentication.",
+                "operationId": "59dd931e476e7b49426228f5b824a6b5",
+                "responses": {
+                    "200": {
+                        "description": "User data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "example": {
+                                    "id": 123,
+                                    "email": "test@example.com"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Missing or invalid token."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Form": {
+                "title": "Form",
+                "description": "A form entity",
+                "required": [
+                    "title",
+                    "level",
+                    "creadtedByUser"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1234
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Title of form"
+                    },
+                    "description": {
+                        "type": "text",
+                        "example": "My descrpition form"
+                    },
+                    "level": {
+                        "$ref": "#/components/schemas/Level"
+                    },
+                    "creadtedByUser": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            },
+            "Level": {
+                "title": "Level",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Level Title"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "A user entity",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "test_user"
+                    }
+                },
+                "type": "object"
+            },
+            "Credentials": {
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "example": "test_user"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "$$.P455w0rd¡"
+                    }
+                },
+                "type": "object"
+            },
+            "Token": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Forms",
+            "description": "Forms"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
